@@ -14,6 +14,8 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -46,6 +48,13 @@ public class SK_Controller {
 		gameIndexSet = gson.fromJson(gameIndexGson.toString(), type);
 		gameIndexList = new ArrayList<>(gameIndexSet);
 		Collections.sort(gameIndexList, (g1, g2) -> g2.getLink().compareTo(g1.getLink()));
+	}
+	
+	
+	@RequestMapping("/")
+	public List<GameReview> home() {
+		LOG.info("entering home");
+		return gameIndexList;
 	}
 
 }
