@@ -56,5 +56,21 @@ public class SK_Controller {
 		LOG.info("entering home");
 		return gameIndexList;
 	}
+	
+	
+	@RequestMapping("/search")
+	public List<GameReview> search(GameReview review) {
+		LOG.info("entering search");
+		List<GameReview> searchResult = new ArrayList<>();
+		gameIndexList.stream().filter((game) -> (
+				(game.getAuthor().toLowerCase().contains(review.getAuthor()))
+				&& (game.getTitle().toLowerCase().contains(review.getTitle()))
+				&& (game.getScore() >= review.getScore())
+				)
+				).forEachOrdered(i -> 
+					searchResult.add(i)
+				);
+		return searchResult;
+	}
 
 }
