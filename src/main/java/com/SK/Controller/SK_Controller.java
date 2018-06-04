@@ -14,11 +14,15 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+@CrossOrigin(value = "http://localhost:4200")
+@RestController
 public class SK_Controller {
 	
 	private static final Logger LOG = Logger.getLogger(SK_Controller.class.getName());
