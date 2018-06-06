@@ -1,4 +1,4 @@
-package com.SK.Controller;
+package com.SK.Model;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,27 +12,21 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-@CrossOrigin(value = "http://localhost:4200")
-@RestController
-public class SK_Controller {
-	
+@Component
+public class GameReviewService {
+
 	private static final Logger LOG = Logger.getLogger(SK_Controller.class.getName());
 	private StringBuilder gameIndexGson = new StringBuilder();
 	private Set<GameReview> gameIndexSet;
 	private List<GameReview> gameIndexList;
 	
 	
-	@PostConstruct
-	public void init() {
+	public void initialize() {
 		LOG.info("entering init");
 		try {
 			URL url = new URL("http://fairplay.hol.es/SKGameIndex.txt");
@@ -55,14 +49,12 @@ public class SK_Controller {
 	}
 	
 	
-	@RequestMapping("/")
 	public List<GameReview> home() {
 		LOG.info("entering home");
 		return gameIndexList;
 	}
 	
 	
-	@RequestMapping("/search")
 	public List<GameReview> search(GameReview review) {
 		LOG.info("entering search");
 		List<GameReview> searchResult = new ArrayList<>();
@@ -76,5 +68,4 @@ public class SK_Controller {
 				);
 		return searchResult;
 	}
-
 }

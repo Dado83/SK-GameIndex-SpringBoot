@@ -1,4 +1,4 @@
-package com.SK.Controller;
+package com.SK.Model;
 
 
 public class GameReview{
@@ -10,13 +10,8 @@ public class GameReview{
     private String link;
     
     
-    public GameReview() {
-    	this.title = "";
-    	this.author = "";
-    	this.score = -1;
-    	this.date = "01.1998";
-    	this.link = "";
-    }
+    public GameReview() {}
+    
     
 	public GameReview(String title, String author, int score, String date, String link){
     	this.title = title;
