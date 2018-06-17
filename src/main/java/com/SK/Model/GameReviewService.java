@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-@Component
+@Service
 public class GameReviewService {
 
 	private static final Logger LOG = Logger.getLogger(SK_Controller.class.getName());
