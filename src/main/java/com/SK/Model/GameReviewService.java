@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+
 @Service
 public class GameReviewService {
 
@@ -24,8 +25,8 @@ public class GameReviewService {
 	private StringBuilder gameIndexGson = new StringBuilder();
 	private Set<GameReview> gameIndexSet;
 	private List<GameReview> gameIndexList;
-	
-	
+
+
 	public void initialize() {
 		LOG.info("entering init");
 		try {
@@ -35,37 +36,35 @@ public class GameReviewService {
 				while ((s = reader.readLine()) != null) {
 					gameIndexGson.append(s);
 				}
-			}		
+			}
 		} catch (MalformedURLException e) {
 			LOG.info("Nema konekcije sa url");
 		} catch (IOException e) {
 			LOG.info("Nema konekcije sa url fajlom");
 		}
 		Gson gson = new Gson();
-		Type type = new TypeToken<Set<GameReview>>() {}.getType();
+		Type type = new TypeToken<Set<GameReview>>() {
+		}.getType();
 		gameIndexSet = gson.fromJson(gameIndexGson.toString(), type);
 		gameIndexList = new ArrayList<>(gameIndexSet);
 		Collections.sort(gameIndexList, (g1, g2) -> g2.getLink().compareTo(g1.getLink()));
 	}
-	
-	
+
+
 	public List<GameReview> home() {
 		LOG.info("entering home");
 		return gameIndexList;
 	}
-	
-	
+
+
 	public List<GameReview> search(GameReview review) {
 		LOG.info("entering search");
 		List<GameReview> searchResult = new ArrayList<>();
-		gameIndexList.stream().filter((game) -> (
-				(game.getAuthor().toLowerCase().contains(review.getAuthor()))
-				&& (game.getTitle().toLowerCase().contains(review.getTitle()))
-				&& (game.getScore() >= review.getScore())
-				)
-				).forEachOrdered(i -> 
-					searchResult.add(i)
-				);
+		gameIndexList.stream()
+				.filter((game) -> ((game.getAuthor().toLowerCase().contains(review.getAuthor()))
+						&& (game.getTitle().toLowerCase().contains(review.getTitle()))
+						&& (game.getScore() >= review.getScore())))
+				.forEachOrdered(i -> searchResult.add(i));
 		return searchResult;
 	}
 }
