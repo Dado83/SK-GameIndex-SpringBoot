@@ -45,9 +45,6 @@ public class SK_Controller {
 	@RequestMapping("/update")
 	public Map<String, String> update() {
 		logger.info("controller update()");
-		updateLogic.update();
-		Map<String, String> map = new HashMap<>();
-		map.put("message", "azuriranje zavrseno");
-		return map;
+		return updateLogic.update();	
 	}
 }

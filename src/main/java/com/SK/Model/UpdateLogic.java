@@ -5,8 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -27,6 +29,7 @@ public class UpdateLogic {
 	private static final Logger logger = Logger.getLogger(UpdateLogic.class.getName());
 	private List<String> linkURLs = new ArrayList<>();
 	private Set<GameReview> igre = new HashSet<>();
+	long protekloVr;
 
 
 	public UpdateLogic() {
@@ -34,10 +37,11 @@ public class UpdateLogic {
 	}
 
 
-	public void update() {
+	public Map<String, String> update() {
 		logger.info("entering update()");
 		long mjerenje = System.nanoTime();
-
+		List<Double> avg_single_index_load_time = new ArrayList<>();
+		
 		loadLinkURLs();
 
 		int size = linkURLs.size();
@@ -59,12 +63,24 @@ public class UpdateLogic {
 			int ostatakMin = (int) (((result * (size - step)) / 1000000000) / 60);
 			logger.info("Potrebno vreme za ucitavanje ostatka linkova: " + ostatakMin + " minuta.");
 
-			long protekloVr = (start - mjerenje) / 1000000000 / 60;
+			protekloVr = (start - mjerenje) / 1000000000 / 60;
 			logger.info("Proteklo vrijeme ucitavanja linkova... " + protekloVr);
+			
+			avg_single_index_load_time.add(result / 1000000000);
 		}
 
 		ispraviNaslov(igre);
 		saveToFile(igre);
+		
+		double sum = avg_single_index_load_time.stream().mapToDouble(Double::doubleValue).sum();
+		double avg_load_time = sum / avg_single_index_load_time.size();
+		
+		Map <String, String> map = new HashMap<>();
+		map.put("status", "azuriranje zavrseno");
+		map.put("totalTime", "proteklo vrijeme: " + protekloVr + " minuta.");
+		map.put("avgTime", "vrijeme potrebno za 1 iteraciju: " + avg_load_time + " sekundi.");
+		
+		return map;
 	}
 
 
