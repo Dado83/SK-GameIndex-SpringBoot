@@ -24,14 +24,14 @@ import com.google.gson.reflect.TypeToken;
 @Service
 public class GameReviewService {
 
-	private static final Logger LOG = Logger.getLogger(SK_Controller.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(SK_Controller.class.getName());
 	private StringBuilder gameIndexGson = new StringBuilder();
 	private Set<GameReview> gameIndexSet;
 	private List<GameReview> gameIndexList;
 
 
-	void readDataFromFileWeb() {
-		LOG.info("entering readDataFromFileWeb()");
+	void readDataFromWebFile() {
+		LOGGER.info("entering readDataFromFileWeb()");
 		try {
 			URL url = new URL("http://fairplay.hol.es/SKGameIndex.txt");
 			try (BufferedReader reader = new BufferedReader(
@@ -42,15 +42,15 @@ public class GameReviewService {
 				}
 			}
 		} catch (MalformedURLException e) {
-			LOG.info("Nema konekcije sa url");
+			LOGGER.info("Nema konekcije sa url");
 		} catch (IOException e) {
-			LOG.info("Nema konekcije sa url fajlom");
+			LOGGER.info("Nema konekcije sa url fajlom");
 		}
 	}
 
 
-	void readDataFromFileLocal() {
-		LOG.info("entering readDataFromFileLocal()");
+	void readDataFromLocalFile() {
+		LOGGER.info("entering readDataFromFileLocal()");
 		try {
 			File file = new File(System.getProperty("user.home") + "/desktop/SKGameIndex.txt");
 			try (BufferedReader reader = new BufferedReader(
@@ -61,16 +61,16 @@ public class GameReviewService {
 				}
 			}
 		} catch (MalformedURLException e) {
-			LOG.info("Nema konekcije sa url");
+			LOGGER.info("Nema konekcije sa url");
 		} catch (IOException e) {
-			LOG.info("Nema konekcije sa url fajlom");
+			LOGGER.info("Nema konekcije sa url fajlom");
 		}
 	}
 
 
 	public void initialize() {
-		LOG.info("entering init");
-		readDataFromFileWeb();
+		LOGGER.info("entering init");
+		readDataFromWebFile();
 		Gson gson = new Gson();
 		Type type = new TypeToken<Set<GameReview>>() {
 		}.getType();
@@ -81,13 +81,13 @@ public class GameReviewService {
 
 
 	public List<GameReview> home() {
-		LOG.info("entering home");
+		LOGGER.info("entering home");
 		return gameIndexList;
 	}
 
 
 	public List<GameReview> search(GameReview review) {
-		LOG.info("entering search");
+		LOGGER.info("entering search");
 		List<GameReview> searchResult = new ArrayList<>();
 		gameIndexList.stream()
 				.filter((game) -> ((game.getAuthor().toLowerCase().contains(review.getAuthor()))
