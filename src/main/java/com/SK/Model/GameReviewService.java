@@ -1,11 +1,14 @@
 package com.SK.Model;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,11 +30,12 @@ public class GameReviewService {
 	private List<GameReview> gameIndexList;
 
 
-	public void initialize() {
-		LOG.info("entering init");
+	void readDataFromFileWeb() {
+		LOG.info("entering readDataFromFileWeb()");
 		try {
 			URL url = new URL("http://fairplay.hol.es/SKGameIndex.txt");
-			try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
+			try (BufferedReader reader = new BufferedReader(
+					new InputStreamReader(url.openStream(), Charset.forName("utf-8").newDecoder()))) {
 				String s = "";
 				while ((s = reader.readLine()) != null) {
 					gameIndexGson.append(s);
@@ -42,6 +46,31 @@ public class GameReviewService {
 		} catch (IOException e) {
 			LOG.info("Nema konekcije sa url fajlom");
 		}
+	}
+
+
+	void readDataFromFileLocal() {
+		LOG.info("entering readDataFromFileLocal()");
+		try {
+			File file = new File(System.getProperty("user.home") + "/desktop/SKGameIndex.txt");
+			try (BufferedReader reader = new BufferedReader(
+					new InputStreamReader(new FileInputStream(file), Charset.forName("utf-8").newDecoder()))) {
+				String s = "";
+				while ((s = reader.readLine()) != null) {
+					gameIndexGson.append(s);
+				}
+			}
+		} catch (MalformedURLException e) {
+			LOG.info("Nema konekcije sa url");
+		} catch (IOException e) {
+			LOG.info("Nema konekcije sa url fajlom");
+		}
+	}
+
+
+	public void initialize() {
+		LOG.info("entering init");
+		readDataFromFileWeb();
 		Gson gson = new Gson();
 		Type type = new TypeToken<Set<GameReview>>() {
 		}.getType();
