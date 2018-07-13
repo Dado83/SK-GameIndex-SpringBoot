@@ -20,80 +20,74 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-
 @Service
 public class GameReviewService {
 
-	private static final Logger LOGGER = Logger.getLogger(SK_Controller.class.getName());
-	private StringBuilder gameIndexGson = new StringBuilder();
-	private Set<GameReview> gameIndexSet;
-	private List<GameReview> gameIndexList;
+    private static final Logger LOGGER = Logger.getLogger(SK_Controller.class.getName());
+    private StringBuilder gameIndexGson = new StringBuilder();
+    private Set<GameReview> gameIndexSet;
+    private List<GameReview> gameIndexList;
 
-
-	void readDataFromWebFile() {
-		LOGGER.info("entering readDataFromFileWeb()");
-		try {
-			URL url = new URL("http://fairplay.hol.es/SKGameIndex.txt");
-			try (BufferedReader reader = new BufferedReader(
-					new InputStreamReader(url.openStream(), Charset.forName("utf-8").newDecoder()))) {
-				String s = "";
-				while ((s = reader.readLine()) != null) {
-					gameIndexGson.append(s);
-				}
-			}
-		} catch (MalformedURLException e) {
-			LOGGER.info("Nema konekcije sa url");
-		} catch (IOException e) {
-			LOGGER.info("Nema konekcije sa url fajlom");
+    void readDataFromWebFile() {
+	LOGGER.info("entering readDataFromFileWeb()");
+	try {
+	    URL url = new URL("http://fairplay.hol.es/SKGameIndex.txt");
+	    try (BufferedReader reader = new BufferedReader(
+		    new InputStreamReader(url.openStream(), Charset.forName("utf-8").newDecoder()))) {
+		String s = "";
+		while ((s = reader.readLine()) != null) {
+		    gameIndexGson.append(s);
 		}
+	    }
+	} catch (MalformedURLException e) {
+	    LOGGER.info("Nema konekcije sa url");
+	} catch (IOException e) {
+	    LOGGER.info("Nema konekcije sa url fajlom");
 	}
+    }
 
-
-	void readDataFromLocalFile() {
-		LOGGER.info("entering readDataFromFileLocal()");
-		try {
-			File file = new File(System.getProperty("user.home") + "/desktop/SKGameIndex.txt");
-			try (BufferedReader reader = new BufferedReader(
-					new InputStreamReader(new FileInputStream(file), Charset.forName("utf-8").newDecoder()))) {
-				String s = "";
-				while ((s = reader.readLine()) != null) {
-					gameIndexGson.append(s);
-				}
-			}
-		} catch (MalformedURLException e) {
-			LOGGER.info("Nema konekcije sa url");
-		} catch (IOException e) {
-			LOGGER.info("Nema konekcije sa url fajlom");
+    void readDataFromLocalFile() {
+	LOGGER.info("entering readDataFromFileLocal()");
+	try {
+	    File file = new File(System.getProperty("user.home") + "/desktop/SKGameIndex.txt");
+	    try (BufferedReader reader = new BufferedReader(
+		    new InputStreamReader(new FileInputStream(file), Charset.forName("utf-8").newDecoder()))) {
+		String s = "";
+		while ((s = reader.readLine()) != null) {
+		    gameIndexGson.append(s);
 		}
+	    }
+	} catch (MalformedURLException e) {
+	    LOGGER.info("Nema konekcije sa url");
+	} catch (IOException e) {
+	    LOGGER.info("Nema konekcije sa url fajlom");
 	}
+    }
 
+    public void initialize() {
+	LOGGER.info("entering init");
+	readDataFromWebFile();
+	Gson gson = new Gson();
+	Type type = new TypeToken<Set<GameReview>>() {
+	}.getType();
+	gameIndexSet = gson.fromJson(gameIndexGson.toString(), type);
+	gameIndexList = new ArrayList<>(gameIndexSet);
+	Collections.sort(gameIndexList, (g1, g2) -> g2.getLink().compareTo(g1.getLink()));
+    }
 
-	public void initialize() {
-		LOGGER.info("entering init");
-		readDataFromWebFile();
-		Gson gson = new Gson();
-		Type type = new TypeToken<Set<GameReview>>() {
-		}.getType();
-		gameIndexSet = gson.fromJson(gameIndexGson.toString(), type);
-		gameIndexList = new ArrayList<>(gameIndexSet);
-		Collections.sort(gameIndexList, (g1, g2) -> g2.getLink().compareTo(g1.getLink()));
-	}
+    public List<GameReview> home() {
+	LOGGER.info("entering home");
+	return gameIndexList;
+    }
 
-
-	public List<GameReview> home() {
-		LOGGER.info("entering home");
-		return gameIndexList;
-	}
-
-
-	public List<GameReview> search(GameReview review) {
-		LOGGER.info("entering search");
-		List<GameReview> searchResult = new ArrayList<>();
-		gameIndexList.stream()
-				.filter((game) -> ((game.getAuthor().toLowerCase().contains(review.getAuthor()))
-						&& (game.getTitle().toLowerCase().contains(review.getTitle()))
-						&& (game.getScore() >= review.getScore())))
-				.forEachOrdered(i -> searchResult.add(i));
-		return searchResult;
-	}
+    public List<GameReview> search(GameReview review) {
+	LOGGER.info("entering search");
+	List<GameReview> searchResult = new ArrayList<>();
+	gameIndexList.stream()
+		.filter((game) -> ((game.getAuthor().toLowerCase().contains(review.getAuthor()))
+			&& (game.getTitle().toLowerCase().contains(review.getTitle()))
+			&& (game.getScore() >= review.getScore())))
+		.forEachOrdered(i -> searchResult.add(i));
+	return searchResult;
+    }
 }

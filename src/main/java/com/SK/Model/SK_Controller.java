@@ -12,39 +12,34 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @CrossOrigin(value = "http://localhost:4200")
 @RestController
 public class SK_Controller {
 
-	private static final Logger logger = Logger.getLogger(SK_Controller.class.getName());
-	@Autowired
-	GameReviewService service;
-	@Autowired
-	UpdateLogic updateLogic;
+    private static final Logger logger = Logger.getLogger(SK_Controller.class.getName());
+    @Autowired
+    GameReviewService service;
+    @Autowired
+    UpdateLogic updateLogic;
 
+    @PostConstruct
+    public void init() {
+	service.initialize();
+    }
 
-	@PostConstruct
-	public void init() {
-		service.initialize();
-	}
+    @RequestMapping("/")
+    public List<GameReview> home() {
+	return service.home();
+    }
 
+    @RequestMapping("/search")
+    public List<GameReview> search(GameReview review) {
+	return service.search(review);
+    }
 
-	@RequestMapping("/")
-	public List<GameReview> home() {
-		return service.home();
-	}
-
-
-	@RequestMapping("/search")
-	public List<GameReview> search(GameReview review) {
-		return service.search(review);
-	}
-
-
-	@RequestMapping("/update")
-	public Map<String, String> update() {
-		logger.info("controller update()");
-		return updateLogic.update();	
-	}
+    @RequestMapping("/update")
+    public Map<String, String> update() {
+	logger.info("controller update()");
+	return updateLogic.update();
+    }
 }
