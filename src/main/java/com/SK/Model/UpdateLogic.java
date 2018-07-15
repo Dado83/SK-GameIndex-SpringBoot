@@ -80,44 +80,24 @@ public class UpdateLogic {
 	return map;
     }
 
-    public void saveToFile(Set<GameReview> ig) {
-	String desktop = System.getProperty("user.home") + "/desktop";
-	Gson gson = new Gson();
-	Type type = new TypeToken<Set<GameReview>>() {
-	}.getType();
-
-	try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-		new FileOutputStream(new File(desktop + "/SKGameIndex.txt")), Charset.forName("utf-8").newEncoder()))) {
-	    String toJson = gson.toJson(ig, type);
-	    writer.write(toJson);
-	} catch (IOException e) {
-	    LOGGER.severe("ERROR in saving file to desktop");
+    public void loadLinkURLs() {
+	LOGGER.info("entering loadLinksURLs()");
+	LOGGER.info("Povezujem se na SK\n...ucitavam linkove...");
+	Document temp = null;
+	try {
+	    temp = Jsoup.connect("http://www.sk.rs/indexes/sections/op.html").get();
+	} catch (IOException e1) {
+	    LOGGER.severe("ERROR in jsoup connect to SK");
 	}
-    }
+	Elements links = temp.select("a[href]");
 
-    public void correctTitle(Set<GameReview> gameSet) {
-	LOGGER.info("entering ispraviNaslov()");
-	for (GameReview i : gameSet) {
-	    if (i.getTitle().contains("http") || i.getTitle().equals("")) {
-		Document doc = null;
-		try {
-		    doc = Jsoup.connect(i.getLink()).get();
-		} catch (IOException e1) {
-		    // TODO Auto-generated catch block
-		    e1.printStackTrace();
-		}
-		Elements date = doc.select("img[alt]");
-		ArrayList<Element> alt = new ArrayList<>();
-		date.forEach((e) -> {
-		    alt.add(e);
-		});
-		if (alt.size() < 10) {
-		} else {
-		    i.setTitle(alt.get(9).attr("alt"));
-		}
-		LOGGER.info(i.getTitle() + " ...ISPRAVLJEN");
-	    }
-	}
+	links.forEach((e) -> {
+	    linkURLs.add("http://www.sk.rs" + e.attr("href").substring(5));
+	});
+	LOGGER.info("Broj linkova prije filtera: " + linkURLs.size());
+	List<String> templList = linkURLs.stream().filter(ss -> !ss.contains("indexe")).collect(Collectors.toList());
+	linkURLs = new ArrayList<>(templList);
+	LOGGER.info("Broj linkova poslije filtera: " + linkURLs.size());
     }
 
     public GameReview setData(String link) {
@@ -150,24 +130,44 @@ public class UpdateLogic {
 	return game;
     }
 
-    public void loadLinkURLs() {
-	LOGGER.info("entering loadLinksURLs()");
-	LOGGER.info("Povezujem se na SK\n...ucitavam linkove...");
-	Document temp = null;
-	try {
-	    temp = Jsoup.connect("http://www.sk.rs/indexes/sections/op.html").get();
-	} catch (IOException e1) {
-	    LOGGER.severe("ERROR in jsoup connect to SK");
+    public void correctTitle(Set<GameReview> gameSet) {
+	LOGGER.info("entering ispraviNaslov()");
+	for (GameReview i : gameSet) {
+	    if (i.getTitle().contains("http") || i.getTitle().equals("")) {
+		Document doc = null;
+		try {
+		    doc = Jsoup.connect(i.getLink()).get();
+		} catch (IOException e1) {
+		    // TODO Auto-generated catch block
+		    e1.printStackTrace();
+		}
+		Elements date = doc.select("img[alt]");
+		ArrayList<Element> alt = new ArrayList<>();
+		date.forEach((e) -> {
+		    alt.add(e);
+		});
+		if (alt.size() < 10) {
+		} else {
+		    i.setTitle(alt.get(9).attr("alt"));
+		}
+		LOGGER.info(i.getTitle() + " ...ISPRAVLJEN");
+	    }
 	}
-	Elements links = temp.select("a[href]");
+    }
 
-	links.forEach((e) -> {
-	    linkURLs.add("http://www.sk.rs" + e.attr("href").substring(5));
-	});
-	LOGGER.info("Broj linkova prije filtera: " + linkURLs.size());
-	List<String> templList = linkURLs.stream().filter(ss -> !ss.contains("indexe")).collect(Collectors.toList());
-	linkURLs = new ArrayList<>(templList);
-	LOGGER.info("Broj linkova poslije filtera: " + linkURLs.size());
+    public void saveToFile(Set<GameReview> ig) {
+	String desktop = System.getProperty("user.home") + "/desktop";
+	Gson gson = new Gson();
+	Type type = new TypeToken<Set<GameReview>>() {
+	}.getType();
+
+	try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+		new FileOutputStream(new File(desktop + "/SKGameIndex.txt")), Charset.forName("utf-8").newEncoder()))) {
+	    String toJson = gson.toJson(ig, type);
+	    writer.write(toJson);
+	} catch (IOException e) {
+	    LOGGER.severe("ERROR in saving file to desktop");
+	}
     }
 
 }
