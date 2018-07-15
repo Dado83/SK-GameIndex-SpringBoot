@@ -33,51 +33,29 @@ public class UpdateLogic {
     private List<String> linkURLs = new ArrayList<>();
     private Set<GameReview> games = new HashSet<>();
     long elapsedTime;
+    long startTime;
+    List<Double> avg_single_index_load_time = new ArrayList<>();
+    int size;
 
     public Map<String, String> update() {
 	LOGGER.info("entering update()");
-	long startTime = System.nanoTime();
-	List<Double> avg_single_index_load_time = new ArrayList<>();
+	
+	startTime = System.nanoTime();
 
 	loadLinkURLs();
-
-	int size = linkURLs.size();
-
-	for (int br = 0; br < linkURLs.size(); br++) {
-	    long start = System.nanoTime();
-	    int step = br;
-	    games.add(setData(linkURLs.get(br)));
-
-	    LOGGER.info("Ucitanih igara: " + games.size());
-
-	    double result = System.nanoTime() - start;
-
-	    LOGGER.info("Vreme potrebno za 1 iteraciju: " + result / 1000000000 + " sekundi.");
-
-	    int timeNeededToComplete = (int) (((result * size) / 1000000000) / 60);
-	    LOGGER.info("Potrebno vreme za ucitavanje svih linkova: " + timeNeededToComplete + " minuta.");
-
-	    int remainingTime = (int) (((result * (size - step)) / 1000000000) / 60);
-	    LOGGER.info("Potrebno vreme za ucitavanje ostatka linkova: " + remainingTime + " minuta.");
-
-	    elapsedTime = (start - startTime) / 1000000000 / 60;
-	    LOGGER.info("Proteklo vrijeme ucitavanja linkova... " + elapsedTime);
-
-	    avg_single_index_load_time.add(result / 1000000000);
-	}
-
+	addGames();
 	correctTitle(games);
 	saveToFile(games);
 
 	double sum = avg_single_index_load_time.stream().mapToDouble(Double::doubleValue).sum();
 	double avg_load_time = sum / avg_single_index_load_time.size();
 
-	Map<String, String> map = new HashMap<>();
-	map.put("status", "azuriranje zavrseno");
-	map.put("totalTime", "proteklo vrijeme: " + elapsedTime + " minuta.");
-	map.put("avgTime", "vrijeme potrebno za 1 iteraciju: " + avg_load_time + " sekundi.");
+	Map<String, String> messageForREST = new HashMap<>();
+	messageForREST.put("status", "azuriranje zavrseno");
+	messageForREST.put("totalTime", "proteklo vrijeme: " + elapsedTime + " minuta.");
+	messageForREST.put("avgTime", "vrijeme potrebno za 1 iteraciju: " + avg_load_time + " sekundi.");
 
-	return map;
+	return messageForREST;
     }
 
     public void loadLinkURLs() {
@@ -100,7 +78,35 @@ public class UpdateLogic {
 	LOGGER.info("Broj linkova poslije filtera: " + linkURLs.size());
     }
 
-    public GameReview setData(String link) {
+    void addGames() {
+	LOGGER.info("entering addGames()");
+	size = linkURLs.size();
+	
+	for (int br = 0; br < linkURLs.size(); br++) {
+	    long start = System.nanoTime();
+	    int step = br;
+	    games.add(setGameReviewData(linkURLs.get(br)));
+
+	    LOGGER.info("Ucitanih igara: " + games.size());
+
+	    double result = System.nanoTime() - start;
+
+	    LOGGER.info("Vreme potrebno za 1 iteraciju: " + result / 1000000000 + " sekundi.");
+
+	    int timeNeededToComplete = (int) (((result * size) / 1000000000) / 60);
+	    LOGGER.info("Potrebno vreme za ucitavanje svih linkova: " + timeNeededToComplete + " minuta.");
+
+	    int remainingTime = (int) (((result * (size - step)) / 1000000000) / 60);
+	    LOGGER.info("Potrebno vreme za ucitavanje ostatka linkova: " + remainingTime + " minuta.");
+
+	    elapsedTime = (start - startTime) / 1000000000 / 60;
+	    LOGGER.info("Proteklo vrijeme ucitavanja linkova... " + elapsedTime);
+
+	    avg_single_index_load_time.add(result / 1000000000);
+	}
+    }
+
+    public GameReview setGameReviewData(String link) {
 	LOGGER.info("entering setData()");
 	GameReview game;
 	Document doc = null;
@@ -138,8 +144,7 @@ public class UpdateLogic {
 		try {
 		    doc = Jsoup.connect(i.getLink()).get();
 		} catch (IOException e1) {
-		    // TODO Auto-generated catch block
-		    e1.printStackTrace();
+		    LOGGER.severe("error connecting to game link using jsoup");
 		}
 		Elements date = doc.select("img[alt]");
 		ArrayList<Element> alt = new ArrayList<>();
