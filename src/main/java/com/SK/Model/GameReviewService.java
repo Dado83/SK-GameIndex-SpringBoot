@@ -28,6 +28,17 @@ public class GameReviewService {
     private Set<GameReview> gameIndexSet;
     private List<GameReview> gameIndexList;
 
+    public void initialize() {
+	LOGGER.info("entering init");
+	readDataFromWebFile();
+	Gson gson = new Gson();
+	Type type = new TypeToken<Set<GameReview>>() {
+	}.getType();
+	gameIndexSet = gson.fromJson(gameIndexGson.toString(), type);
+	gameIndexList = new ArrayList<>(gameIndexSet);
+	Collections.sort(gameIndexList, (g1, g2) -> g2.getLink().compareTo(g1.getLink()));
+    }
+
     void readDataFromWebFile() {
 	LOGGER.info("entering readDataFromFileWeb()");
 	try {
@@ -62,17 +73,6 @@ public class GameReviewService {
 	} catch (IOException e) {
 	    LOGGER.info("Nema konekcije sa url fajlom");
 	}
-    }
-
-    public void initialize() {
-	LOGGER.info("entering init");
-	readDataFromWebFile();
-	Gson gson = new Gson();
-	Type type = new TypeToken<Set<GameReview>>() {
-	}.getType();
-	gameIndexSet = gson.fromJson(gameIndexGson.toString(), type);
-	gameIndexList = new ArrayList<>(gameIndexSet);
-	Collections.sort(gameIndexList, (g1, g2) -> g2.getLink().compareTo(g1.getLink()));
     }
 
     public List<GameReview> home() {
