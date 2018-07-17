@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SK_Controller {
 
-    private static final Logger logger = Logger.getLogger(SK_Controller.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SK_Controller.class.getName());
     @Autowired
     GameReviewService service;
     @Autowired
@@ -38,7 +38,7 @@ public class SK_Controller {
 
     @RequestMapping("/update")
     public Map<String, String> update() {
-	logger.info("controller update()");
+	LOGGER.info("controller update()");
 	return updateLogic.update();
     }
 }
