@@ -7,20 +7,23 @@ public class GameReview {
     private int score;
     private String date;
     private String link;
+    private String platform;
 
     public GameReview() {
+
     }
 
-    public GameReview(String title, String author, int score, String date, String link) {
+    public GameReview(String title, String author, int score, String date, String link, String platform) {
 	this.title = title;
 	this.author = author;
 	this.score = score;
 	this.date = date;
 	this.link = link;
+	this.platform = platform;
     }
 
-    public GameReview(String t, String a, String d, String l) {
-	this(t, a, -1, d, l);
+    public GameReview(String title, String author, String date, String link, String platform) {
+	this(title, author, -1, date, link, platform);
     }
 
     public String getTitle() {
@@ -66,6 +69,14 @@ public class GameReview {
     public int getYear() {
 	int year = Integer.parseInt(getDate().substring(3, 7));
 	return year;
+    }
+
+    public String getPlatform() {
+	return platform;
+    }
+
+    public void setPlatform(String platform) {
+	this.platform = platform;
     }
 
     @Override

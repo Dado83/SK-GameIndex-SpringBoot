@@ -30,7 +30,7 @@ public class GameReviewService {
 
     public void initialize() {
 	LOGGER.info("entering init");
-	readDataFromWebFile();
+	readDataFromLocalFile();
 	Gson gson = new Gson();
 	Type type = new TypeToken<Set<GameReview>>() {
 	}.getType();
@@ -86,6 +86,7 @@ public class GameReviewService {
 	gameIndexList.stream()
 		.filter((game) -> ((game.getAuthor().toLowerCase().contains(review.getAuthor()))
 			&& (game.getTitle().toLowerCase().contains(review.getTitle()))
+			&& (game.getPlatform().toLowerCase().contains(review.getPlatform()))
 			&& (game.getScore() >= review.getScore())))
 		.forEachOrdered(i -> searchResult.add(i));
 	return searchResult;

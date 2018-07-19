@@ -1,9 +1,11 @@
 package com.SK.Model;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.xpath;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
@@ -39,7 +41,7 @@ public class UpdateLogic {
 
     public Map<String, String> update() {
 	LOGGER.info("entering update()");
-	
+
 	startTime = System.nanoTime();
 
 	loadLinkURLs();
@@ -58,7 +60,7 @@ public class UpdateLogic {
 	return messageForREST;
     }
 
-    public void loadLinkURLs() {
+    void loadLinkURLs() {
 	LOGGER.info("entering loadLinksURLs()");
 	LOGGER.info("Povezujem se na SK\n...ucitavam linkove...");
 	Document temp = null;
@@ -81,7 +83,7 @@ public class UpdateLogic {
     void addGames() {
 	LOGGER.info("entering addGames()");
 	size = linkURLs.size();
-	
+
 	for (int br = 0; br < linkURLs.size(); br++) {
 	    long start = System.nanoTime();
 	    int step = br;
@@ -106,9 +108,11 @@ public class UpdateLogic {
 	}
     }
 
-    public GameReview setGameReviewData(String link) {
+    GameReview setGameReviewData(String link) {
 	LOGGER.info("entering setData()");
-	GameReview game;
+	LOGGER.info("adding " + link);
+	String regex = "PC | Windows | Xbox | PS3 | Playstation | DS | Wii | Nintendo | 3DS | PSVita";
+	GameReview game = null;
 	Document doc = null;
 	try {
 	    doc = Jsoup.connect(link).get();
@@ -119,6 +123,7 @@ public class UpdateLogic {
 	Elements score = doc.select(".oc");
 	Elements author = doc.select(".pd");
 	Elements date = doc.select("img[alt]");
+	Elements platform = doc.select(".kz");
 
 	ArrayList<Element> dateTemp = new ArrayList<>();
 	date.forEach((e) -> {
@@ -129,14 +134,44 @@ public class UpdateLogic {
 		.reduce(year, String::concat);
 
 	if (score.text().matches("[0-9]+")) {
-	    game = new GameReview(title.text(), author.text(), Integer.parseInt(score.text()), year, link);
+	    if (platform.isEmpty() || !isPlatformHtmlElement(platform.first().text())
+		    || isPCSpecsHtmlElement(platform.first().text())) {
+		game = new GameReview(title.text(), author.text(), Integer.parseInt(score.text()), year, link, "PC");
+	    } else {
+		game = new GameReview(title.text(), author.text(), Integer.parseInt(score.text()), year, link,
+			platform.first().text());
+	    }
 	} else {
-	    game = new GameReview(title.text(), author.text(), year, link);
+	    if (platform.isEmpty() || !isPlatformHtmlElement(platform.first().text())
+		    || isPCSpecsHtmlElement(platform.first().text())) {
+		game = new GameReview(title.text(), author.text(), year, link, "PC");
+	    } else {
+		game = new GameReview(title.text(), author.text(), year, link, platform.first().text());
+	    }
 	}
+	LOGGER.info(game.getPlatform());
 	return game;
     }
 
-    public void correctTitle(Set<GameReview> gameSet) {
+    boolean isPlatformHtmlElement(String element) {
+	String string = element.toLowerCase();
+	boolean platform = (string.contains("pc") || string.contains("windows") || string.contains("xbox")
+		|| string.contains("ps3") || string.contains("ps2") || string.contains("ps4")
+		|| string.contains("playstation") || string.contains("ds") || string.contains("wii")
+		|| string.contains("nintendo") || string.contains("3ds") || string.contains("psvita")
+		|| string.contains("gameboy") || string.contains("sega") || string.contains("atari")
+		|| string.contains("gamecube") || string.contains("dreamcast") || string.contains("gage")
+		|| string.contains("nes") || string.contains("mac") || string.contains("linux"));
+	return platform;
+    }
+
+    boolean isPCSpecsHtmlElement(String element) {
+	String string = element.toLowerCase();
+	boolean specs = string.contains("ram");
+	return specs;
+    }
+
+    void correctTitle(Set<GameReview> gameSet) {
 	LOGGER.info("entering ispraviNaslov()");
 	for (GameReview i : gameSet) {
 	    if (i.getTitle().contains("http") || i.getTitle().equals("")) {
@@ -160,7 +195,7 @@ public class UpdateLogic {
 	}
     }
 
-    public void saveToFile(Set<GameReview> ig) {
+    void saveToFile(Set<GameReview> ig) {
 	String desktop = System.getProperty("user.home") + "/desktop";
 	Gson gson = new Gson();
 	Type type = new TypeToken<Set<GameReview>>() {
