@@ -1,8 +1,5 @@
 package com.SK.Model;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.xpath;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,6 +61,7 @@ public class UpdateLogic {
 	LOGGER.info("entering loadLinksURLs()");
 	LOGGER.info("Povezujem se na SK\n...ucitavam linkove...");
 	Document temp = null;
+
 	try {
 	    temp = Jsoup.connect("http://www.sk.rs/indexes/sections/op.html").get();
 	} catch (IOException e1) {
@@ -75,8 +73,9 @@ public class UpdateLogic {
 	    linkURLs.add("http://www.sk.rs" + e.attr("href").substring(5));
 	});
 	LOGGER.info("Broj linkova prije filtera: " + linkURLs.size());
-	List<String> templList = linkURLs.stream().filter(ss -> !ss.contains("indexe")).collect(Collectors.toList());
-	linkURLs = new ArrayList<>(templList);
+
+	List<String> tempList = linkURLs.stream().filter(ss -> !ss.contains("indexe")).collect(Collectors.toList());
+	linkURLs = new ArrayList<>(tempList);
 	LOGGER.info("Broj linkova poslije filtera: " + linkURLs.size());
     }
 
@@ -88,11 +87,9 @@ public class UpdateLogic {
 	    long start = System.nanoTime();
 	    int step = br;
 	    games.add(setGameReviewData(linkURLs.get(br)));
-
 	    LOGGER.info("Ucitanih igara: " + games.size());
 
 	    double result = System.nanoTime() - start;
-
 	    LOGGER.info("Vreme potrebno za 1 iteraciju: " + result / 1000000000 + " sekundi.");
 
 	    int timeNeededToComplete = (int) (((result * size) / 1000000000) / 60);
@@ -111,7 +108,6 @@ public class UpdateLogic {
     GameReview setGameReviewData(String link) {
 	LOGGER.info("entering setData()");
 	LOGGER.info("adding " + link);
-	String regex = "PC | Windows | Xbox | PS3 | Playstation | DS | Wii | Nintendo | 3DS | PSVita";
 	GameReview game = null;
 	Document doc = null;
 	try {
@@ -119,6 +115,7 @@ public class UpdateLogic {
 	} catch (IOException e1) {
 	    LOGGER.severe("ERROR in 'doc = Jsoup.connect(link).get();'");
 	}
+
 	Elements title = doc.select(".na");
 	Elements score = doc.select(".oc");
 	Elements author = doc.select(".pd");
