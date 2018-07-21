@@ -31,10 +31,10 @@ public class UpdateLogic {
     private static final Logger LOGGER = Logger.getLogger(UpdateLogic.class.getName());
     private List<String> linkURLs = new ArrayList<>();
     private Set<GameReview> games = new HashSet<>();
-    long elapsedTime;
-    long startTime;
-    List<Double> avg_single_index_load_time = new ArrayList<>();
-    int size;
+    private long elapsedTime;
+    private long startTime;
+    private List<Double> avg_single_index_load_time = new ArrayList<>();
+    private int size;
 
     public Map<String, String> update() {
 	LOGGER.info("entering update()");
@@ -57,7 +57,7 @@ public class UpdateLogic {
 	return messageForREST;
     }
 
-    void loadLinkURLs() {
+    private void loadLinkURLs() {
 	LOGGER.info("entering loadLinksURLs()");
 	LOGGER.info("Povezujem se na SK\n...ucitavam linkove...");
 	Document temp = null;
@@ -79,7 +79,7 @@ public class UpdateLogic {
 	LOGGER.info("Broj linkova poslije filtera: " + linkURLs.size());
     }
 
-    void addGames() {
+    private void addGames() {
 	LOGGER.info("entering addGames()");
 	size = linkURLs.size();
 
@@ -105,7 +105,7 @@ public class UpdateLogic {
 	}
     }
 
-    GameReview setGameReviewData(String link) {
+    private GameReview setGameReviewData(String link) {
 	LOGGER.info("entering setData()");
 	LOGGER.info("adding " + link);
 	GameReview game = null;
@@ -150,7 +150,7 @@ public class UpdateLogic {
 	return game;
     }
 
-    boolean isPlatformHtmlElement(String element) {
+    private boolean isPlatformHtmlElement(String element) {
 	String string = element.toLowerCase();
 	boolean platform = (string.contains("pc") || string.contains("windows") || string.contains("xbox")
 		|| string.contains("ps3") || string.contains("ps2") || string.contains("ps4")
@@ -162,13 +162,13 @@ public class UpdateLogic {
 	return platform;
     }
 
-    boolean isPCSpecsHtmlElement(String element) {
+    private boolean isPCSpecsHtmlElement(String element) {
 	String string = element.toLowerCase();
 	boolean specs = string.contains("ram");
 	return specs;
     }
 
-    void correctTitle(Set<GameReview> gameSet) {
+    private void correctTitle(Set<GameReview> gameSet) {
 	LOGGER.info("entering ispraviNaslov()");
 	for (GameReview i : gameSet) {
 	    if (i.getTitle().contains("http") || i.getTitle().equals("")) {
@@ -192,7 +192,7 @@ public class UpdateLogic {
 	}
     }
 
-    void saveToFile(Set<GameReview> ig) {
+    private void saveToFile(Set<GameReview> ig) {
 	String desktop = System.getProperty("user.home") + "/desktop";
 	Gson gson = new Gson();
 	Type type = new TypeToken<Set<GameReview>>() {

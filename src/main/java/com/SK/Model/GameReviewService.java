@@ -39,7 +39,7 @@ public class GameReviewService {
 	Collections.sort(gameIndexList, (g1, g2) -> g2.getLink().compareTo(g1.getLink()));
     }
 
-    void readDataFromWebFile() {
+    private void readDataFromWebFile() {
 	LOGGER.info("entering readDataFromFileWeb()");
 	try {
 	    URL url = new URL("http://fairplay.hol.es/SKGameIndex.txt");
@@ -57,7 +57,7 @@ public class GameReviewService {
 	}
     }
 
-    void readDataFromLocalFile() {
+    private void readDataFromLocalFile() {
 	LOGGER.info("entering readDataFromFileLocal()");
 	try {
 	    File file = new File(System.getProperty("user.home") + "/desktop/SKGameIndex.txt");
