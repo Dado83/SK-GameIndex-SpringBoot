@@ -4,7 +4,7 @@ public class GameReview {
 
     private String title;
     private String author;
-    private int score;
+    private String score;
     private String date;
     private String link;
     private String platform;
@@ -13,7 +13,7 @@ public class GameReview {
 
     }
 
-    public GameReview(String title, String author, int score, String date, String link, String platform) {
+    public GameReview(String title, String author, String score, String date, String link, String platform) {
 	this.title = title;
 	this.author = author;
 	this.score = score;
@@ -23,7 +23,7 @@ public class GameReview {
     }
 
     public GameReview(String title, String author, String date, String link, String platform) {
-	this(title, author, -1, date, link, platform);
+	this(title, author, "-1", date, link, platform);
     }
 
     public String getTitle() {
@@ -42,11 +42,11 @@ public class GameReview {
 	this.author = author;
     }
 
-    public int getScore() {
+    public String getScore() {
 	return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(String score) {
 	this.score = score;
     }
 
