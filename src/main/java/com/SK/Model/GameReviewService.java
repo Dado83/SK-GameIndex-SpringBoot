@@ -82,12 +82,17 @@ public class GameReviewService {
 
     public List<GameReview> search(GameReview review) {
 	LOGGER.info("entering search");
+
+	if (review.getScore().equals("")) {
+	    review.setScore("-1");
+	}
+
 	List<GameReview> searchResult = new ArrayList<>();
 	gameIndexList.stream()
 		.filter((game) -> ((game.getAuthor().toLowerCase().contains(review.getAuthor()))
 			&& (game.getTitle().toLowerCase().contains(review.getTitle()))
-			&& (game.getPlatform().toLowerCase().contains(review.getPlatform()))
-			&& (game.getScore() >= review.getScore())))
+			&& (Integer.valueOf(game.getScore()) >= Integer.valueOf(review.getScore())))
+			&& (game.getPlatform().toLowerCase().contains(review.getPlatform())))
 		.forEachOrdered(i -> searchResult.add(i));
 	return searchResult;
     }
