@@ -19,7 +19,7 @@ public class SK_Controller {
     @Autowired
     GameReviewService service;
     @Autowired
-    UpdateLogic updateLogic;
+    UpdateService updateService;
 
     @PostConstruct
     public void init() {
@@ -39,6 +39,6 @@ public class SK_Controller {
     @RequestMapping("/update")
     public Map<String, String> update() {
 	LOGGER.info("controller update()");
-	return updateLogic.update();
+	return updateService.update();
     }
 }

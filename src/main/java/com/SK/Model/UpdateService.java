@@ -26,9 +26,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 @Service
-public class UpdateLogic {
+public class UpdateService {
 
-    private static final Logger LOGGER = Logger.getLogger(UpdateLogic.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(UpdateService.class.getName());
     private List<String> linkURLs = new ArrayList<>();
     private Set<GameReview> games = new HashSet<>();
     private long elapsedTime;
@@ -87,7 +87,7 @@ public class UpdateLogic {
 	    long start = System.nanoTime();
 	    int step = br;
 	    games.add(setGameReviewData(linkURLs.get(br)));
-	    LOGGER.info("Ucitanih igara: " + games.size());
+	    LOGGER.info("Ucitanih igara: " + games.size() + "/" + linkURLs.size());
 
 	    double result = System.nanoTime() - start;
 	    LOGGER.info("Vreme potrebno za 1 iteraciju: " + result / 1000000000 + " sekundi.");
@@ -133,10 +133,9 @@ public class UpdateLogic {
 	if (score.text().matches("[0-9]+")) {
 	    if (platform.isEmpty() || !isPlatformHtmlElement(platform.first().text())
 		    || isPCSpecsHtmlElement(platform.first().text())) {
-		game = new GameReview(title.text(), author.text(), Integer.parseInt(score.text()), year, link, "PC");
+		game = new GameReview(title.text(), author.text(), score.text(), year, link, "PC");
 	    } else {
-		game = new GameReview(title.text(), author.text(), Integer.parseInt(score.text()), year, link,
-			platform.first().text());
+		game = new GameReview(title.text(), author.text(), score.text(), year, link, platform.first().text());
 	    }
 	} else {
 	    if (platform.isEmpty() || !isPlatformHtmlElement(platform.first().text())
