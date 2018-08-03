@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
@@ -43,8 +44,9 @@ public class GameReviewService {
 	LOGGER.info("entering readDataFromFileWeb()");
 	try {
 	    URL url = new URL("http://fairplay.hol.es/SKGameIndex.txt");
-	    try (BufferedReader reader = new BufferedReader(
-		    new InputStreamReader(url.openStream(), Charset.forName("utf-8").newDecoder()))) {
+	    InputStream inStream = url.openStream();
+	    InputStreamReader streamReader = new InputStreamReader(inStream, Charset.forName("utf-8").newDecoder());
+	    try (BufferedReader reader = new BufferedReader(streamReader)) {
 		String s = "";
 		while ((s = reader.readLine()) != null) {
 		    gameIndexGson.append(s);
@@ -61,8 +63,9 @@ public class GameReviewService {
 	LOGGER.info("entering readDataFromFileLocal()");
 	try {
 	    File file = new File(System.getProperty("user.home") + "/desktop/SKGameIndex.txt");
-	    try (BufferedReader reader = new BufferedReader(
-		    new InputStreamReader(new FileInputStream(file), Charset.forName("utf-8").newDecoder()))) {
+	    FileInputStream fileStream = new FileInputStream(file);
+	    InputStreamReader streamReader = new InputStreamReader(fileStream);
+	    try (BufferedReader reader = new BufferedReader(streamReader)) {
 		String s = "";
 		while ((s = reader.readLine()) != null) {
 		    gameIndexGson.append(s);
@@ -96,4 +99,5 @@ public class GameReviewService {
 		.forEachOrdered(i -> searchResult.add(i));
 	return searchResult;
     }
+
 }
