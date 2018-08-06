@@ -35,7 +35,7 @@ public class GameReviewService {
 	readLocalData(true);
     }
 
-    void readLocalData(boolean local) {
+    private void readLocalData(boolean local) {
 	LOGGER.info("Entering readLocalData()");
 	try {
 	    File file = new File(System.getProperty("user.home") + "/desktop/SKGameIndex.txt");

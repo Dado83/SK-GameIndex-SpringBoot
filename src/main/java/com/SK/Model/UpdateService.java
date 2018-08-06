@@ -53,7 +53,8 @@ public class UpdateService {
 	double avgLoadTime = sum / avgSingleIndexLoadTime.size();
 
 	Map<String, String> messageForREST = new HashMap<>();
-	messageForREST.put("status", "azuriranje zavrseno");
+	
+	messageForREST.put("status", "azuriranje zavrseno (" + size + " igara)");
 	messageForREST.put("totalTime", "proteklo vrijeme: " + elapsedTime + " minuta.");
 	messageForREST.put("avgTime", "vrijeme potrebno za 1 iteraciju: " + avgLoadTime + " sekundi.");
 
