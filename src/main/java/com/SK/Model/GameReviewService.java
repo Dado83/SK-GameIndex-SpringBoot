@@ -32,20 +32,22 @@ public class GameReviewService {
 
     public void initialize() {
 	LOGGER.info("entering init");
-	readDataFromLocalFile();
-	Gson gson = new Gson();
-	Type type = new TypeToken<Set<GameReview>>() {
-	}.getType();
-	gameIndexSet = gson.fromJson(gameIndexGson.toString(), type);
-	gameIndexList = new ArrayList<>(gameIndexSet);
-	Collections.sort(gameIndexList, (g1, g2) -> g2.getLink().compareTo(g1.getLink()));
+	readLocalData(true);
     }
 
-    private void readDataFromWebFile() {
-	LOGGER.info("entering readDataFromFileWeb()");
+    void readLocalData(boolean local) {
+	LOGGER.info("Entering readLocalData()");
 	try {
+	    File file = new File(System.getProperty("user.home") + "/desktop/SKGameIndex.txt");
 	    URL url = new URL("http://fairplay.hol.es/SKGameIndex.txt");
-	    InputStream inStream = url.openStream();
+	    InputStream inStream;
+
+	    if (local) {
+		inStream = new FileInputStream(file);
+	    } else {
+		inStream = url.openStream();
+	    }
+
 	    Reader streamReader = new InputStreamReader(inStream, Charset.forName("utf-8").newDecoder());
 	    try (BufferedReader reader = new BufferedReader(streamReader)) {
 		String s = "";
@@ -58,25 +60,12 @@ public class GameReviewService {
 	} catch (IOException e) {
 	    LOGGER.info("Nema konekcije sa url fajlom");
 	}
-    }
 
-    private void readDataFromLocalFile() {
-	LOGGER.info("entering readDataFromFileLocal()");
-	try {
-	    File file = new File(System.getProperty("user.home") + "/desktop/SKGameIndex.txt");
-	    InputStream inStream = new FileInputStream(file);
-	    Reader streamReader = new InputStreamReader(inStream);
-	    try (BufferedReader reader = new BufferedReader(streamReader)) {
-		String s = "";
-		while ((s = reader.readLine()) != null) {
-		    gameIndexGson.append(s);
-		}
-	    }
-	} catch (MalformedURLException e) {
-	    LOGGER.info("Nema konekcije sa url");
-	} catch (IOException e) {
-	    LOGGER.info("Nema konekcije sa url fajlom");
-	}
+	Gson gson = new Gson();
+	Type type = new TypeToken<Set<GameReview>>() {}.getType();
+	gameIndexSet = gson.fromJson(gameIndexGson.toString(), type);
+	gameIndexList = new ArrayList<>(gameIndexSet);
+	Collections.sort(gameIndexList, (g1, g2) -> g2.getLink().compareTo(g1.getLink()));
     }
 
     public List<GameReview> home() {
