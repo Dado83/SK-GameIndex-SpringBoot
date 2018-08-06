@@ -36,7 +36,7 @@ public class UpdateService {
     private Set<GameReview> games = new HashSet<>();
     private long elapsedTime;
     private long startTime;
-    private List<Double> avg_single_index_load_time = new ArrayList<>();
+    private List<Double> avgSingleIndexLoadTime = new ArrayList<>();
     private int size;
 
     public Map<String, String> update() {
@@ -49,13 +49,13 @@ public class UpdateService {
 	correctTitle(games);
 	saveToFile(games);
 
-	double sum = avg_single_index_load_time.stream().mapToDouble(Double::doubleValue).sum();
-	double avg_load_time = sum / avg_single_index_load_time.size();
+	double sum = avgSingleIndexLoadTime.stream().mapToDouble(Double::doubleValue).sum();
+	double avgLoadTime = sum / avgSingleIndexLoadTime.size();
 
 	Map<String, String> messageForREST = new HashMap<>();
 	messageForREST.put("status", "azuriranje zavrseno");
 	messageForREST.put("totalTime", "proteklo vrijeme: " + elapsedTime + " minuta.");
-	messageForREST.put("avgTime", "vrijeme potrebno za 1 iteraciju: " + avg_load_time + " sekundi.");
+	messageForREST.put("avgTime", "vrijeme potrebno za 1 iteraciju: " + avgLoadTime + " sekundi.");
 
 	return messageForREST;
     }
@@ -104,7 +104,7 @@ public class UpdateService {
 	    elapsedTime = (start - startTime) / 1000000000 / 60;
 	    LOGGER.info("Proteklo vrijeme ucitavanja linkova... " + elapsedTime);
 
-	    avg_single_index_load_time.add(result / 1000000000);
+	    avgSingleIndexLoadTime.add(result / 1000000000);
 	}
     }
 
