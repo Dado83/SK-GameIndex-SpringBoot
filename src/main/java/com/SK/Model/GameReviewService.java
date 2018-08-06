@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -45,7 +46,7 @@ public class GameReviewService {
 	try {
 	    URL url = new URL("http://fairplay.hol.es/SKGameIndex.txt");
 	    InputStream inStream = url.openStream();
-	    InputStreamReader streamReader = new InputStreamReader(inStream, Charset.forName("utf-8").newDecoder());
+	    Reader streamReader = new InputStreamReader(inStream, Charset.forName("utf-8").newDecoder());
 	    try (BufferedReader reader = new BufferedReader(streamReader)) {
 		String s = "";
 		while ((s = reader.readLine()) != null) {
@@ -63,8 +64,8 @@ public class GameReviewService {
 	LOGGER.info("entering readDataFromFileLocal()");
 	try {
 	    File file = new File(System.getProperty("user.home") + "/desktop/SKGameIndex.txt");
-	    FileInputStream fileStream = new FileInputStream(file);
-	    InputStreamReader streamReader = new InputStreamReader(fileStream);
+	    InputStream fileStream = new FileInputStream(file);
+	    Reader streamReader = new InputStreamReader(fileStream);
 	    try (BufferedReader reader = new BufferedReader(streamReader)) {
 		String s = "";
 		while ((s = reader.readLine()) != null) {
