@@ -2,9 +2,12 @@ package com.SK.Model;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -60,7 +63,7 @@ public class UpdateService {
     private void loadLinkURLs() {
 	LOGGER.info("entering loadLinksURLs()");
 	LOGGER.info("Povezujem se na SK\n...ucitavam linkove...");
-	Document temp = null;
+	Element temp = null;
 
 	try {
 	    temp = Jsoup.connect("http://www.sk.rs/indexes/sections/op.html").get();
@@ -109,7 +112,7 @@ public class UpdateService {
 	LOGGER.info("entering setData()");
 	LOGGER.info("adding " + link);
 	GameReview game = null;
-	Document doc = null;
+	Element doc = null;
 	try {
 	    doc = Jsoup.connect(link).get();
 	} catch (IOException e1) {
@@ -122,7 +125,7 @@ public class UpdateService {
 	Elements date = doc.select("img[alt]");
 	Elements platform = doc.select(".kz");
 
-	ArrayList<Element> dateTemp = new ArrayList<>();
+	List<Element> dateTemp = new ArrayList<>();
 	date.forEach((e) -> {
 	    dateTemp.add(e);
 	});
@@ -171,14 +174,14 @@ public class UpdateService {
 	LOGGER.info("entering ispraviNaslov()");
 	for (GameReview i : gameSet) {
 	    if (i.getTitle().contains("http") || i.getTitle().equals("")) {
-		Document doc = null;
+		Element doc = null;
 		try {
 		    doc = Jsoup.connect(i.getLink()).get();
 		} catch (IOException e1) {
 		    LOGGER.severe("error connecting to game link using jsoup");
 		}
 		Elements date = doc.select("img[alt]");
-		ArrayList<Element> alt = new ArrayList<>();
+		List<Element> alt = new ArrayList<>();
 		date.forEach((e) -> {
 		    alt.add(e);
 		});
@@ -197,10 +200,17 @@ public class UpdateService {
 	Type type = new TypeToken<Set<GameReview>>() {
 	}.getType();
 
-	try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-		new FileOutputStream(new File(desktop + "/SKGameIndex.txt")), Charset.forName("utf-8").newEncoder()))) {
-	    String toJson = gson.toJson(ig, type);
-	    writer.write(toJson);
+	try {
+	    File file = new File(desktop + "/SKGameIndex.txt");
+	    OutputStream outStream = new FileOutputStream(file);
+	    Writer streamWriter = new OutputStreamWriter(outStream, Charset.forName("utf-8").newEncoder());
+	    try (BufferedWriter writer = new BufferedWriter(streamWriter)) {
+		String toJson = gson.toJson(ig, type);
+		writer.write(toJson);
+	    }
+	} catch (FileNotFoundException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
 	} catch (IOException e) {
 	    LOGGER.severe("ERROR in saving file to desktop");
 	}

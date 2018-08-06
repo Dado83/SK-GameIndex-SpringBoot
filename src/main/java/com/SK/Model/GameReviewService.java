@@ -64,8 +64,8 @@ public class GameReviewService {
 	LOGGER.info("entering readDataFromFileLocal()");
 	try {
 	    File file = new File(System.getProperty("user.home") + "/desktop/SKGameIndex.txt");
-	    InputStream fileStream = new FileInputStream(file);
-	    Reader streamReader = new InputStreamReader(fileStream);
+	    InputStream inStream = new FileInputStream(file);
+	    Reader streamReader = new InputStreamReader(inStream);
 	    try (BufferedReader reader = new BufferedReader(streamReader)) {
 		String s = "";
 		while ((s = reader.readLine()) != null) {
