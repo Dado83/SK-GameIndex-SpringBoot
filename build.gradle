@@ -23,12 +23,6 @@ repositories {
 	mavenCentral()
 }
 
-
-bootJar {
-    launchScript()
-}
-
-
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-aop')
 	compile('org.springframework.boot:spring-boot-starter-web')
