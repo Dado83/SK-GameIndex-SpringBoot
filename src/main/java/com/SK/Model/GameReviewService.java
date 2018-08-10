@@ -25,7 +25,7 @@ import com.google.gson.reflect.TypeToken;
 @Service
 public class GameReviewService {
 
-    private static final Logger LOGGER = Logger.getLogger(SK_Controller.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SK_RESTController.class.getName());
     private StringBuilder gameIndexGson = new StringBuilder();
     private Set<GameReview> gameIndexSet;
     private List<GameReview> gameIndexList;

@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(value = "http://localhost:4200")
 @RestController
-public class SK_Controller {
+public class SK_RESTController {
 
-    private static final Logger LOGGER = Logger.getLogger(SK_Controller.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SK_RESTController.class.getName());
     @Autowired
     GameReviewService service;
     @Autowired
