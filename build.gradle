@@ -29,5 +29,6 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-devtools")
 	compile("org.jsoup:jsoup:1.11.3")
 	compile('com.google.code.gson:gson')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
