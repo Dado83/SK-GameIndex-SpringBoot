@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>SK Game Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel='shortcut icon' type='image/x-icon' href='static/favicon.ico' />
+</head>
+<body>
+
+	<div class="container">
+
+		<div class="starter-template">
+			<h1>Svet Kompjutera Game Index</h1>
+			<h2>
+				Recenzije:
+			</h2>
+		</div>
+
+	</div>
+	<div>
+	<p th:text>"${list}"</p>
+	</div>
+	<table id="games">
+		<tr>
+			<th class="datum">Datum</th>
+			<th class="naslov">Naslov</th>
+			<th class="autor">Autor</th>
+			<th class="ocjena">Ocjena</th>
+			<th class="ocjena">Platforma</th>
+		</tr>
+		<tr th:each="index: ${list}">
+			<td th:text="${index.date}"/>
+			<td ><a th:href="${index.link}">[[${index.title}]]</a></td>
+			<td th:text="${index.author}"/>
+			<td th:text="${index.score}"/>
+			<td th:text="${index.platform}"/>
+		</tr>
+	</table>
+	
+
+</body>
+</html>

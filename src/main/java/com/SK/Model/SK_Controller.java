@@ -7,15 +7,15 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(value = "http://localhost:4200")
-//@RestController
-public class SK_RESTController {
 
-    private static final Logger LOGGER = Logger.getLogger(SK_RESTController.class.getName());
+@Controller
+public class SK_Controller {
+
+    private static final Logger LOGGER = Logger.getLogger(SK_Controller.class.getName());
     @Autowired
     GameReviewService service;
     @Autowired
@@ -23,13 +23,14 @@ public class SK_RESTController {
 
     @PostConstruct
     public void init() {
-	LOGGER.info("inside RESTcontroller");
+	LOGGER.info("inside controller");
 	service.initialize();
     }
 
     @RequestMapping("/")
-    public List<GameReview> home() {
-	return service.home();
+    public String index(Model model) {
+	model.addAttribute("list", service.home());
+	return "index";
     }
 
     @RequestMapping("/search")
