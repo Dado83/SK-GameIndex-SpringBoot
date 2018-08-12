@@ -13,20 +13,10 @@
 		<div class="starter-template">
 			<h1>Svet Kompjutera Game Index</h1>
 			<h2>
-				Recenzije:
+				rezultati pretrage:
 			</h2>
 		</div>
 
-	</div>
-	<div class="search">
-	<h1>Form</h1>
-    <form action="#" th:action="@{/search}" th:object="${review}" method="post">
-    	<p>Naslov: <input type="text" th:field="*{title}" /></p>
-        <p>Autor: <input type="text" th:field="*{author}" /></p>
-        <p>Ocjena: <input type="text" th:field="*{score}" /></p>
-        <p>Platforma: <input type="text" th:field="*{platform}" /></p>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-    </form>
 	</div>
 	<table id="games">
 		<tr>
@@ -36,7 +26,7 @@
 			<th class="ocjena">Ocjena</th>
 			<th class="ocjena">Platforma</th>
 		</tr>
-		<tr th:each="index: ${list}">
+		<tr th:each="index: ${results}">
 			<td th:text="${index.date}"/>
 			<td><a th:href="${index.link}" th:text="${index.title}"></a></td>
 			<td th:text="${index.author}"/>

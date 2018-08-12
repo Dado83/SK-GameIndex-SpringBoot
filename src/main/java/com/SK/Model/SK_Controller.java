@@ -9,6 +9,9 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -27,15 +30,17 @@ public class SK_Controller {
 	service.initialize();
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String index(Model model) {
 	model.addAttribute("list", service.home());
+	model.addAttribute("review", new GameReview());
 	return "index";
     }
 
-    @RequestMapping("/search")
-    public List<GameReview> search(GameReview review) {
-	return service.search(review);
+    @PostMapping("/search")
+    public String search(Model model, @ModelAttribute GameReview review) {
+	model.addAttribute("results", service.search(review));
+	return "searchResult";
     }
 
     @RequestMapping("/update")
