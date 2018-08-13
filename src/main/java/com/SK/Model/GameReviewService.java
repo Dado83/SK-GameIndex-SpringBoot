@@ -62,7 +62,8 @@ public class GameReviewService {
 	}
 
 	Gson gson = new Gson();
-	Type type = new TypeToken<Set<GameReview>>() {}.getType();
+	Type type = new TypeToken<Set<GameReview>>() {
+	}.getType();
 	gameIndexSet = gson.fromJson(gameIndexGson.toString(), type);
 	gameIndexList = new ArrayList<>(gameIndexSet);
 	Collections.sort(gameIndexList, (g1, g2) -> g2.getLink().compareTo(g1.getLink()));
@@ -82,10 +83,10 @@ public class GameReviewService {
 
 	List<GameReview> searchResult = new ArrayList<>();
 	gameIndexList.stream()
-		.filter((game) -> ((game.getAuthor().toLowerCase().contains(review.getAuthor()))
-			&& (game.getTitle().toLowerCase().contains(review.getTitle()))
+		.filter((game) -> ((game.getAuthor().toLowerCase().contains(review.getAuthor().toLowerCase()))
+			&& (game.getTitle().toLowerCase().contains(review.getTitle().toLowerCase()))
 			&& (Integer.valueOf(game.getScore()) >= Integer.valueOf(review.getScore())))
-			&& (game.getPlatform().toLowerCase().contains(review.getPlatform())))
+			&& (game.getPlatform().toLowerCase().contains(review.getPlatform().toLowerCase())))
 		.forEachOrdered(i -> searchResult.add(i));
 	return searchResult;
     }
