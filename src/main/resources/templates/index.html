@@ -1,32 +1,37 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>SK Game Index</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel='shortcut icon' type='image/x-icon' href='static/favicon.ico' />
 </head>
 <body>
-
-	<div class="container">
-
-		<div class="starter-template">
-			<h1>Svet Kompjutera Game Index</h1>
-			<h2>
-				Recenzije:
-			</h2>
-		</div>
-
+	<div class="header">
+		<h1>Svet Kompjutera Game Index</h1>
+		<h2>Recenzije:</h2>
 	</div>
 	<div class="search">
-	<h1>Form</h1>
-    <form action="#" th:action="@{/search}" th:object="${review}" method="post">
-    	<p>Naslov: <input type="text" th:field="*{title}" /></p>
-        <p>Autor: <input type="text" th:field="*{author}" /></p>
-        <p>Ocjena: <input type="text" th:field="*{score}" /></p>
-        <p>Platforma: <input type="text" th:field="*{platform}" /></p>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-    </form>
+		<h1>Pretraga</h1>
+		<form action="#" th:action="@{/search}" th:object="${review}"
+			method="post">
+			<p>
+				Naslov: <input type="text" th:field="*{title}" />
+			</p>
+			<p>
+				Autor: <input type="text" th:field="*{author}" />
+			</p>
+			<p>
+				Ocjena: <input type="text" th:field="*{score}" />
+			</p>
+			<p>
+				Platforma: <input type="text" th:field="*{platform}" />
+			</p>
+			<p>
+				<input type="submit" value="Submit" /> <input type="reset"
+					value="Reset" />
+			</p>
+		</form>
 	</div>
 	<table id="games">
 		<tr>
@@ -37,14 +42,12 @@
 			<th class="ocjena">Platforma</th>
 		</tr>
 		<tr th:each="index: ${list}">
-			<td th:text="${index.date}"/>
+			<td th:text="${index.date}" />
 			<td><a th:href="${index.link}" th:text="${index.title}"></a></td>
-			<td th:text="${index.author}"/>
-			<td th:text="${index.score}"/>
-			<td th:text="${index.platform}"/>
+			<td th:text="${index.author}" />
+			<td th:text="${index.score}" />
+			<td th:text="${index.platform}" />
 		</tr>
 	</table>
-	
-
 </body>
 </html>
