@@ -9,30 +9,37 @@
 <body>
 	<div class="header">
 		<h1>Svet Kompjutera Game Index</h1>
-		<h2>Recenzije:</h2>
 	</div>
 	<div class="search">
-		<h1>Pretraga</h1>
 		<form action="#" th:action="@{/search}" th:object="${review}"
 			method="post">
-			<p>
-				Naslov: <input type="text" th:field="*{title}" />
-			</p>
-			<p>
-				Autor: <input type="text" th:field="*{author}" />
-			</p>
-			<p>
-				Ocjena: <input type="text" th:field="*{score}" />
-			</p>
-			<p>
-				Platforma: <input type="text" th:field="*{platform}" />
-			</p>
-			<p>
-				<input type="submit" value="Submit" /> <input type="reset"
-					value="Reset" />
-			</p>
+			<h3>Pretraga</h3>
+			<table>
+				<tr>
+					<td>Naslov:</td>
+					<td><input type="text" th:field="*{title}" /></td>
+				</tr>
+				<tr>
+					<td>Autor:</td>
+					<td><input type="text" th:field="*{author}" /></td>
+				</tr>
+				<tr>
+					<td>Ocjena:</td>
+					<td><input type="text" th:field="*{score}" /></td>
+				</tr>
+				<tr>
+					<td>Platforma:</td>
+					<td><input type="text" th:field="*{platform}" /></td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="Prertaga" /></td>
+					<td><input type="reset" value="Reset" /></td>
+				</tr>
+			</table>
 		</form>
+
 	</div>
+	<h2>Recenzije ([[${numberOfGames}]]):</h2>
 	<table id="games">
 		<tr>
 			<th class="datum">Datum</th>

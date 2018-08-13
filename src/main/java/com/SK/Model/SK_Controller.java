@@ -32,12 +32,14 @@ public class SK_Controller {
     public String index(Model model) {
 	model.addAttribute("list", service.home());
 	model.addAttribute("review", new GameReview());
+	model.addAttribute("numberOfGames", service.home().size());
 	return "index";
     }
 
     @PostMapping("/search")
     public String search(Model model, @ModelAttribute GameReview review) {
 	model.addAttribute("results", service.search(review));
+	model.addAttribute("numberOfGames", service.search(review).size());
 	return "searchResult";
     }
 
