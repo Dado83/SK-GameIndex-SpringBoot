@@ -5,19 +5,20 @@
 <title>SK Game Index</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel='shortcut icon' type='image/x-icon' href='static/favicon.ico' />
+<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 	<div class="header">
 		<h1>Svet Kompjutera Game Index</h1>
 		<h2>rezultati pretrage ([[${numberOfGames}]]):</h2>
 	</div>
-	<table id="games">
+	<table class="games">
 		<tr>
-			<th class="datum">Datum</th>
-			<th class="naslov">Naslov</th>
-			<th class="autor">Autor</th>
-			<th class="ocjena">Ocjena</th>
-			<th class="ocjena">Platforma</th>
+			<th class="date">Datum</th>
+			<th class="title">Naslov</th>
+			<th class="author">Autor</th>
+			<th class="score">Ocjena</th>
+			<th class="platform">Platforma</th>
 		</tr>
 		<tr th:each="index: ${results}">
 			<td th:text="${index.date}" />
