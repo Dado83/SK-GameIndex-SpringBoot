@@ -5,6 +5,7 @@
 <title>SK Game Index</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel='shortcut icon' type='image/x-icon' href='static/favicon.ico' />
+<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 	<div class="header">
@@ -16,19 +17,19 @@
 			<h3>Pretraga</h3>
 			<table>
 				<tr>
-					<td>Naslov:</td>
+					<td class="label">Naslov:</td>
 					<td><input type="text" th:field="*{title}" /></td>
 				</tr>
 				<tr>
-					<td>Autor:</td>
+					<td class="label">Autor:</td>
 					<td><input type="text" th:field="*{author}" /></td>
 				</tr>
 				<tr>
-					<td>Ocjena:</td>
+					<td class="label">Ocjena:</td>
 					<td><input type="text" th:field="*{score}" /></td>
 				</tr>
 				<tr>
-					<td>Platforma:</td>
+					<td class="label">Platforma:</td>
 					<td><input type="text" th:field="*{platform}" /></td>
 				</tr>
 				<tr>
@@ -40,13 +41,13 @@
 
 	</div>
 	<h2>Recenzije ([[${numberOfGames}]]):</h2>
-	<table id="games">
+	<table class="games">
 		<tr>
-			<th class="datum">Datum</th>
-			<th class="naslov">Naslov</th>
-			<th class="autor">Autor</th>
-			<th class="ocjena">Ocjena</th>
-			<th class="ocjena">Platforma</th>
+			<th class="date">Datum</th>
+			<th class="title">Naslov</th>
+			<th class="author">Autor</th>
+			<th class="score">Ocjena</th>
+			<th class="platform">Platforma</th>
 		</tr>
 		<tr th:each="index: ${list}">
 			<td th:text="${index.date}" />
