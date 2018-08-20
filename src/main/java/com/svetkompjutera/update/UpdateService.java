@@ -1,4 +1,4 @@
-package com.SK.Model;
+package com.svetkompjutera.update;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,16 +20,16 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.svetkompjutera.gamereview.GameReview;
 
 @Service
-public class UpdateService {
+class UpdateService {
 
     private static final Logger LOGGER = Logger.getLogger(UpdateService.class.getName());
     private List<String> linkURLs = new ArrayList<>();
@@ -53,7 +53,7 @@ public class UpdateService {
 	double avgLoadTime = sum / avgSingleIndexLoadTime.size();
 
 	Map<String, String> messageForREST = new HashMap<>();
-	
+
 	messageForREST.put("status", "azuriranje zavrseno (" + size + " igara)");
 	messageForREST.put("totalTime", "proteklo vrijeme: " + elapsedTime + " minuta.");
 	messageForREST.put("avgTime", "vrijeme potrebno za 1 iteraciju: " + avgLoadTime + " sekundi.");
