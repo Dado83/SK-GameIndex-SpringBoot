@@ -1,4 +1,4 @@
-package com.SK.Model;
+package com.svetkompjutera.gamereview;
 
 public class GameReview {
 

@@ -1,4 +1,4 @@
-package com.SK;
+package com.svetkompjutera;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

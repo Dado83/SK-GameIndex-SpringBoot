@@ -1,4 +1,4 @@
-package com.SK.Model;
+package com.svetkompjutera.gamereview;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,9 +23,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 @Service
-public class GameReviewService {
+class GameReviewService {
 
-    private static final Logger LOGGER = Logger.getLogger(SK_RESTController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SKRESTController.class.getName());
     private StringBuilder gameIndexGson = new StringBuilder();
     private Set<GameReview> gameIndexSet;
     private List<GameReview> gameIndexList;

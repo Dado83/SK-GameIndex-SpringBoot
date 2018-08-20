@@ -1,4 +1,4 @@
-package com.SK.Model;
+package com.svetkompjutera.gamereview;
 
 import java.util.Map;
 import java.util.logging.Logger;
@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
-public class SK_Controller {
+import com.svetkompjutera.update.UpdateService;
 
-    private static final Logger LOGGER = Logger.getLogger(SK_Controller.class.getName());
+@Controller
+class SKController {
+
+    private static final Logger LOGGER = Logger.getLogger(SKController.class.getName());
     @Autowired
     GameReviewService service;
     @Autowired

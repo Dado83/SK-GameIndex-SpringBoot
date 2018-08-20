@@ -1,4 +1,4 @@
-package com.SK.Model;
+package com.svetkompjutera.gamereview;
 
 import java.util.List;
 import java.util.Map;
@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.svetkompjutera.update.UpdateService;
+
 @CrossOrigin(value = "http://localhost:4200")
 //@RestController
-public class SK_RESTController {
+class SKRESTController {
 
-    private static final Logger LOGGER = Logger.getLogger(SK_RESTController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SKRESTController.class.getName());
     @Autowired
     GameReviewService service;
     @Autowired
