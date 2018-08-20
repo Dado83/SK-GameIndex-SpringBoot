@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 class UpdateController {
@@ -15,7 +15,7 @@ class UpdateController {
     @Autowired
     private UpdateService updateService;
 
-    @RequestMapping("/update")
+    @GetMapping("/update")
     public Map<String, String> update() {
 	LOGGER.info("controller update()");
 	return updateService.update();
