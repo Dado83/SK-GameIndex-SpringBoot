@@ -13,7 +13,7 @@ class UpdateController {
     private static final Logger LOGGER = Logger.getLogger(UpdateController.class.getName());
 
     @Autowired
-    UpdateService updateService;
+    private UpdateService updateService;
 
     @RequestMapping("/update")
     public Map<String, String> update() {

@@ -14,7 +14,7 @@ class SKRESTController {
 
     private static final Logger LOGGER = Logger.getLogger(SKRESTController.class.getName());
     @Autowired
-    GameReviewService service;
+    private GameReviewService service;
 
     @PostConstruct
     public void init() {

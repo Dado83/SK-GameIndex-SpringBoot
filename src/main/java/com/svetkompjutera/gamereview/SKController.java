@@ -13,16 +13,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.svetkompjutera.update.UpdateService;
-
 @Controller
 class SKController {
 
     private static final Logger LOGGER = Logger.getLogger(SKController.class.getName());
     @Autowired
-    GameReviewService service;
-    @Autowired
-    UpdateService updateService;
+    private GameReviewService service;
 
     @PostConstruct
     public void init() {
@@ -45,9 +41,4 @@ class SKController {
 	return "searchResult";
     }
 
-    @RequestMapping("/update")
-    public Map<String, String> update() {
-	LOGGER.info("controller update()");
-	return updateService.update();
-    }
 }
