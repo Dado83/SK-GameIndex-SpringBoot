@@ -82,7 +82,7 @@ input[type=submit]:hover {
 }
 
 input[type=reset]:hover {
-	padding: 1pt 6pt;
+	padding: 1pt 6pt;																									
 	color: red;
 	border-bottom: 1pt solid red;
 }
