@@ -22,7 +22,7 @@
 		</tr>
 		<tr th:each="index: ${results}">
 			<td th:text="${index.date}" />
-			<td><a th:href="${index.link}" th:text="${index.title}"></a></td>
+			<td><span class="cube">■</span><a th:href="${index.link}" th:text="${index.title}"></a></td>
 			<td th:text="${index.author}" />
 			<td th:text="${index.score}" />
 			<td th:text="${index.platform}" />

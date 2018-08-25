@@ -8,33 +8,27 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<span id="svet">Svet</span><span id="komp">KOMPJUTERA </span><span id="gi">Game Index</span>
-	<div class="header">
-		
-	</div>
+	<span id="svet">Svet</span>
+	<span id="komp">KOMPJUTERA </span>
+	<span id="gi">Game Index</span>
+	<div class="header"></div>
 	<div class="search">
 		<form action="#" th:action="@{/search}" th:object="${review}"
 			method="get">
-			<h4>Pretraga</h4>
+			<h4>Pretraga:</h4>
 			<table>
 				<tr>
-					<td class="label">Naslov:</td>
+					<td class="label">Naslov</td>
+					<td class="label">Autor</td>
+					<td class="label">Ocjena</td>
+					<td class="label">Platforma</td>
+				</tr>
+				<tr>
 					<td><input type="text" th:field="*{title}" /></td>
-				</tr>
-				<tr>
-					<td class="label">Autor:</td>
 					<td><input type="text" th:field="*{author}" /></td>
-				</tr>
-				<tr>
-					<td class="label">Ocjena:</td>
 					<td><input type="text" th:field="*{score}" /></td>
-				</tr>
-				<tr>
-					<td class="label">Platforma:</td>
 					<td><input type="text" th:field="*{platform}" /></td>
-				</tr>
-				<tr>
-					<td><input type="submit" value="Prertaga" /></td>
+					<td><input type="submit" value="Pretraga" /></td>
 					<td><input type="reset" value="Reset" /></td>
 				</tr>
 			</table>
@@ -52,7 +46,8 @@
 		</tr>
 		<tr th:each="index: ${list}">
 			<td th:text="${index.date}" />
-			<td><a th:href="${index.link}" th:text="${index.title}"></a></td>
+			<td><span class="cube">■</span><a th:href="${index.link}"
+				th:text="${index.title}"></a></td>
 			<td th:text="${index.author}" />
 			<td th:text="${index.score}" />
 			<td th:text="${index.platform}" />

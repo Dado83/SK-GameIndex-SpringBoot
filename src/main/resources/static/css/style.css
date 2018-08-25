@@ -1,15 +1,88 @@
 #svet {
-	color: black;
+	color: white;
 	font-style: italic;
 	font-size: 30pt;
 	vertical-align: 75%;
 }
 
 #komp {
-	color: black;
+	color: white;
 	font-size: 35pt;
 }
 
 #gi {
+	color: white;
 	font-size: 20pt;
+}
+
+body {
+	background-color: black;
+}
+
+h2 {
+	color: white;
+}
+
+a {
+	text-decoration: none;
+	font-weight: bold;
+	color: White;
+}
+
+a:visited {
+	color: #999999;
+}
+
+a:hover {
+	color: red;
+	text-decoration: underline;
+}
+
+.cube {
+	font-size: 19pt;
+	color: #009900;
+	text-decoration: none;
+	line-height: 8pt;
+	padding-left: 0px;
+	padding-right: 2px;
+}
+
+.games {
+	border-top: 1pt solid red;
+	font-family: Arial, Helvetica, sans-serif;
+	color: White;
+	font-size: 12pt;
+}
+
+.search {
+	background-color: black;
+	color: #009900;
+	font-style: italic;
+}
+
+input[type=text] {
+	background-color: lightgrey;
+}
+
+input[type=submit] {
+	padding: 1pt 6pt;
+	font-style: italic;
+	font-weight: bold;
+}
+
+input[type=reset] {
+	padding: 1pt 6pt;
+	font-style: italic;
+}
+
+input[type=submit]:hover {
+	padding: 1pt 6pt;
+	color: #009900;
+	border-bottom: 1pt solid #009900;
+}
+
+input[type=reset]:hover {
+	padding: 1pt 6pt;
+	color: red;
+	border-bottom: 1pt solid red;
 }
