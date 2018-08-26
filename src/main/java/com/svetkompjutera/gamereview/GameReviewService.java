@@ -32,7 +32,7 @@ class GameReviewService {
 
     public void initialize() {
 	LOGGER.info("entering init");
-	readLocalData(true);
+	readLocalData(false);
     }
 
     private void readLocalData(boolean local) {
