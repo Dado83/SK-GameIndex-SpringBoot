@@ -210,7 +210,6 @@ class UpdateService {
 		writer.write(toJson);
 	    }
 	} catch (FileNotFoundException e1) {
-	    // TODO Auto-generated catch block
 	    e1.printStackTrace();
 	} catch (IOException e) {
 	    LOGGER.severe("ERROR in saving file to desktop");
