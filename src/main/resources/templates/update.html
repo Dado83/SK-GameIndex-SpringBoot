@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>SK Game Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<div class="header">
+		<span id="svet">Svet</span> <span id="komp">KOMPJUTERA </span> <span
+			id="gi">Game Index</span>
+	</div>
+	<div class="update">
+		<p th:text="${update.status}" />
+		<p th:text="${update.totalTime}" />
+		<p th:text="${update.avgTime}" />
+	</div>
+</body>
+</html>

@@ -5,13 +5,13 @@
 <title>SK Game Index</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
-<link rel="stylesheet" type="text/css" href="/css/style.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-	<span id="svet">Svet</span>
-	<span id="komp">KOMPJUTERA </span>
-	<span id="gi">Game Index</span>
-	<div class="header"></div>
+	<div class="header">
+		<span id="svet">Svet</span> <span id="komp">KOMPJUTERA </span> <span
+			id="gi">Game Index</span>
+	</div>
 	<div class="search">
 		<form action="#" th:action="@{/search}" th:object="${review}"
 			method="get">
@@ -49,11 +49,9 @@
 			<td><span class="cube">■</span><a th:href="${index.link}"
 				th:text="${index.title}"></a></td>
 			<td th:text="${index.author}" />
-			<td th:switch="${index.score}">
-			<span th:case="-1" th:text="nn"></span>
-			<span th:case="*" th:text="${index.score}"></span>
-			 <td/>
-			
+			<td th:switch="${index.score}"><span th:case="-1" th:text="nn"></span>
+				<span th:case="*" th:text="${index.score}"></span></td>
+
 			<td th:text="${index.platform}" />
 		</tr>
 	</table>
