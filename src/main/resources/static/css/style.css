@@ -90,3 +90,7 @@ input[type=reset]:hover {
 .update {
 	color: white;
 }
+
+.updateButton {
+	margin: 0 0 20pt 10pt;
+}
