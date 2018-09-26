@@ -24,7 +24,7 @@ import org.springframework.core.io.ClassPathResource;
 @Service
 class GameReviewService {
 
-    private static final Logger LOGGER = Logger.getLogger(SKRESTController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GameReviewService.class.getName());
     private StringBuilder gameIndexGson = new StringBuilder();
     private Set<GameReview> gameIndexSet;
     private List<GameReview> gameIndexList;
