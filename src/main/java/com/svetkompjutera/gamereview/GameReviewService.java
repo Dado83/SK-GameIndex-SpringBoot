@@ -38,7 +38,7 @@ class GameReviewService {
         LOGGER.info("Entering readLocalData()");
         try {
 
-            InputStream inStream = new ClassPathResource("static/SKGameIndex.txt").getInputStream();
+            InputStream inStream = new ClassPathResource("static/SKGameIndex.json").getInputStream();
 
             Reader streamReader = new InputStreamReader(inStream, Charset.forName("utf-8").newDecoder());
             try (BufferedReader reader = new BufferedReader(streamReader)) {
