@@ -1,59 +1,58 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
-<head>
-<title>SK Game Index</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
-<link rel="stylesheet" type="text/css" href="css/style.css"/>
-</head>
-<body>
-	<div class="header">
-		<span id="svet">Svet</span> <span id="komp">KOMPJUTERA </span> <span
-			id="gi">Game Index</span>
-	</div>
-	<div class="search">
-		<form action="#" th:action="@{/search}" th:object="${review}"
-			method="get">
-			<h4>Pretraga:</h4>
-			<table>
-				<tr>
-					<td class="label">Naslov</td>
-					<td class="label">Autor</td>
-					<td class="label">Ocjena</td>
-					<td class="label">Platforma</td>
-				</tr>
-				<tr>
-					<td><input type="text" th:field="*{title}" /></td>
-					<td><input type="text" th:field="*{author}" /></td>
-					<td><input type="text" th:field="*{score}" /></td>
-					<td><input type="text" th:field="*{platform}" /></td>
-					<td><input type="submit" value="Pretraga" /></td>
-					<td><input type="reset" value="Reset" /></td>
-				</tr>
-			</table>
-		</form>
+      xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>SK Game Index</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+  </head>
+  <body>
+    <div class="header">
+      <span id="svet">Svet</span> <span id="komp">KOMPJUTERA </span> <span
+          id="gi">Game Index</span>
+    </div>
+    <div class="search">
+      <form action="#" th:action="@{/search}" th:object="${review}"
+            method="get">
+        <h4>Pretraga:</h4>
+        <table>
+          <tr>
+            <td class="label">Naslov</td>
+            <td class="label">Autor</td>
+            <td class="label">Ocjena</td>
+            <td class="label">Platforma</td>
+          </tr>
+          <tr>
+            <td><input type="text" th:field="*{title}" /></td>
+            <td><input type="text" th:field="*{author}" /></td>
+            <td><input type="text" th:field="*{score}" /></td>
+            <td><input type="text" th:field="*{platform}" /></td>
+            <td><input type="submit" value="Pretraga" /></td>
+            <td><input type="reset" value="Reset" /></td>
+          </tr>
+        </table>
+      </form>
 
-	</div>
-	<h2>Recenzije ([[${numberOfGames}]]):</h2>
-	<table class="games">
-		<tr>
-			<th class="date">Datum</th>
-			<th class="title">Naslov</th>
-			<th class="author">Autor</th>
-			<th class="score">Ocjena</th>
-			<th class="platform">Platforma</th>
-		</tr>
-		<tr th:each="index: ${list}">
-			<td th:text="${index.date}" />
-			<td><span class="cube">■</span><a th:href="${index.link}"
-				th:text="${index.title}"></a></td>
-			<td th:text="${index.author}" />
-			<td th:switch="${index.score}"><span th:case="-1" th:text="nn"></span>
-				<span th:case="*" th:text="${index.score}"></span></td>
-
-			<td th:text="${index.platform}" />
-		</tr>
-	</table>
-</body>
+    </div>
+    <h2>Recenzije ([[${numberOfGames}]]):</h2>
+    <table class="games">
+      <tr>
+        <th class="date">Datum</th>
+        <th class="title">Naslov</th>
+        <th class="author">Autor</th>
+        <th class="score">Ocjena</th>
+        <th class="platform">Platforma</th>
+      </tr>
+      <tr th:each="index: ${list}">
+        <td th:text="${index.date}" />
+        <td><span class="cube">■</span><a th:href="${index.link}"
+                                          th:text="${index.title}"></a></td>
+        <td th:text="${index.author}" />
+        <td class="oc" th:switch="${index.score}"><span th:case="-1" th:text="??"></span>
+          <span th:case="*" th:text="${index.score}"></span></td>
+        <td th:text="${index.platform}" />
+      </tr>
+    </table>
+  </body>
 </html>
