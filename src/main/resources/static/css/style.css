@@ -52,6 +52,7 @@ a:hover {
 	font-family: arial, helvetica, sans-serif;
 	color: white;
 	font-size: 12pt;
+        clear: both;
 }
 
 .search {
@@ -97,4 +98,8 @@ input[type=reset]:hover {
 
 .oc {
     color: red;
+}
+
+.back {
+    float: right;
 }
